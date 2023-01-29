@@ -2,6 +2,7 @@
 include_once("./database/config.php");
 date_default_timezone_set('Asia/Dhaka');
 
+error_reporting(0);
 
 session_start();
 

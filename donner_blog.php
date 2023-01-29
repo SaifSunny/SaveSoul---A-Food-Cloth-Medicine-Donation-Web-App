@@ -2,6 +2,7 @@
 include_once("./database/config.php");
 
 session_start();
+error_reporting(0);
 
 $username = $_SESSION['donnername'];
 
@@ -187,7 +188,7 @@ $donner_read = $row22['donner_read'];
                             ?>
                         <div class="col-md-4">
                             <div class="card" >
-                                <a href="donner_blog_details.php?blog_id=<?php echo $id?>"><img src="img/posts/<?php echo $image?>" class="card-img-top" alt="..." style=""></a>
+                                <a href="donner_blog_details.php?blog_id=<?php echo $id?>"><img src="img/posts/<?php echo $image?>" class="card-img-top" alt="..." style="height:300px; object-fit:cover"></a>
                                 <div class="card-body" style="padding:30px">
                                     <p style="font-size:15px"><i class="fa fa-user text-success"></i> <?php echo $name?> &nbsp; &nbsp; &nbsp;<i class="fa fa-clock text-success"></i> <?php echo $dt[0]." ".$dt[1]." ".$dt[2]?></p>
 

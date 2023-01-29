@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -51,7 +52,7 @@ if(isset($_POST['submit'])){
 
         // Insert record
 
-        $query2 = "INSERT INTO messages(room_id,donner_id,ngo_id,message,send_time,sender,donner_read)
+        $query2 = "INSERT INTO messages(room_id,donner_id,ngo_id,message,send_time,sender,ngo_read)
         VALUES ('$room_id', '$donner_id','$ngo_id','$message', '$date', '1', '1')";
         $query_run2 = mysqli_query($conn, $query2);
             

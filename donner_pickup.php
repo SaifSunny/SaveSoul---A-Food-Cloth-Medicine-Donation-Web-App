@@ -2,6 +2,7 @@
 include_once("./database/config.php");
 
 session_start();
+error_reporting(0);
 
 $username = $_SESSION['donnername'];
 
@@ -182,7 +183,7 @@ $donner_read = $row22['donner_read'];
                                                         $msg = "Picked Up";
                                                     }else{
                                                         $type = "danger";
-                                                        $msg = "Pending";
+                                                        $msg = "Cancelled";
                                                     }
 
                                                     $item = "";
@@ -239,12 +240,12 @@ $donner_read = $row22['donner_read'];
                                         <td><?php echo $date ?></td>
                                         <td><?php echo $newDate ?></td>
                                         <td>
-                                            <a href="donner_create_chat.php?ngo_id=<?php echo $ngo_id?>&donner_id=<?php echo $donner_id?>"
+                                            <a href="donner_create_chat.php?ngo_id=<?php echo $cposter_id?>&donner_id=<?php echo $donner_id?>"
                                                 class="btn btn-success"
                                                 style="font-size:12px;padding:10% 20%;margin-right:10%">Message</a>
                                         </td>
                                         <td>
-                                            <div class="d-flex">
+                                            <div class="d-flex"> 
                                                 <a href="donner_donation_cancel.php?donation_id=<?php echo $donation_id?>"
                                                     class="btn btn-danger" style="font-size:12px;padding:10% 20%"><i
                                                         class="fa fa-trash"></i></a>

@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -151,29 +152,46 @@ $ngo_read = $row22['ngo_read'];
                 </thead>
 
                 <tbody>
-                    <?php 
-                                            $sql = "SELECT * FROM donation Where poster_id = $ngo_id AND `role`='NGO' and status >0";
+                <?php 
+                                            $sql = "SELECT * FROM causes where poster_id = $ngo_id and `role`='NGO'";
                                             $result = mysqli_query($conn, $sql);
                                             if($result){
                                                 while($row=mysqli_fetch_assoc($result)){
-                                                    $category=$row['category'];
-                                                    $amount=$row['amount'];
-                                                    $address=$row['address'];
-                                                    $date=$row['date'];
-                                                    $status=$row['status'];
                                                     $cause_id=$row['cause_id'];
+
+                                                    $sql1 = "SELECT * FROM donation Where cause_id = $cause_id";
+                                                    $result1 = mysqli_query($conn, $sql1);
+                                                    if($result1){
+                                                    while($row1=mysqli_fetch_assoc($result1)){
+
+                              
+                                                    $donation_id=$row1['donation_id'];
+                    
+                                                    $poster_id=$row1['poster_id'];
+                                                    $role=$row1['role'];
+                                                    $cause_id=$row1['cause_id'];
+                                                    $category=$row1['category'];
+                                                    $amount=$row1['amount'];
+                                                    $address=$row1['address'];
+                                                    $date=$row1['date'];
+                                                    $pickup_date=$row1['pickup_date'];
+                                                    $status=$row1['status'];
+
+                                              
+      
+                                                        $sql3 = "SELECT * from donners where donner_id = $poster_id";
+                                                        $result3 = mysqli_query($conn, $sql3);
+                                                        $row3 =mysqli_fetch_assoc($result3);
+                                                        $pname=$row3['firstname']." ".$row3['lastname'];
+                                                        $pimg=$row3['donner_img'];
+
 
                                                     if($status == 1){
                                                         $type = "success";
-                                                        $msg = "Successfull";
-                                                    }                                               
-                                                    else if($status == 0){
-                                                        $type = "warning";
-                                                        $msg = "Processing";
-                                                    }
-                                                    else{
+                                                        $msg = "Picked Up";
+                                                    }else{
                                                         $type = "danger";
-                                                        $msg = "Canclled";
+                                                        $msg = "Pending";
                                                     }
 
                                                     $item = "";
@@ -191,47 +209,23 @@ $ngo_read = $row22['ngo_read'];
                                                         $item = "Tk.";
                                                     }
 
-                                                    $sql1 = "SELECT * FROM causes Where cause_id = $cause_id";
-                                                    $result1 = mysqli_query($conn, $sql1);
-                                                    $row1=mysqli_fetch_assoc($result1);
-                                                    $cposter_id=$row1['poster_id'];
-                                                    $crole=$row1['role'];
-
-                                                    if($crole=="Donner"){
-                                                        $sql3 = "SELECT * from donners where donner_id = $cposter_id";
-                                                        $result3 = mysqli_query($conn, $sql3);
-                                                        $row3 =mysqli_fetch_assoc($result3);
-                                                        $pname=$row3['firstname']." ".$row3['lastname'];
-                                                        $pimg=$row3['donner_img'];
-
-                                                        $dir="donners";
                                                 
-                                                    }else{
-                                                        $sql4 = "SELECT * from ngo where ngo_id = $cposter_id";
-                                                        $result4 = mysqli_query($conn, $sql4);
-                                                        $row4 =mysqli_fetch_assoc($result4);
-                                                        $pname=$row4['ngo_name'];
-                                                        $pimg=$row4['ngo_img'];
-
-                                                        $dir="ngos";
-
-                                                    }
-
-
 
                                         ?>
                     <tr>
-                        <td><img src="./img/<?php echo $dir."/".$pimg?>" style="width:90px;" alt="profile">
+                        <td><img src="./img/donners/<?php echo $pimg?>" style="width:90px;" alt="profile">
                             <span style="padding-left:20px;"></span></td>
                         <td><?php echo $pname ?></td>
                         <td><?php echo $category ?></td>
                         <td><?php echo $amount." ".$item?></td>
-                        <td><?php echo $date ?></td>
+                        <td><?php echo $pickup_date ?></td>
                         <td style="font-size:14px; font-weight:600;"><button
                                 style="border-radius: 40px; padding:5px 14px; font-size:10px; font-weight:600"
                                 class="btn btn-<?php echo $type?>"><?php echo $msg?></button></td>
                     </tr>
                     <?php 
+                                                    }
+                                                }
                                                 }
                                             }
                                         ?>

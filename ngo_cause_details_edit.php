@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -144,8 +145,8 @@ $description=$row['description'];
                 $query_run2 = mysqli_query($conn, $query2);
     
                 if ($query_run2) {
-                    $cls="danger";
-                    $error = "Successfully Added Image";
+                    $cls="success";
+                    $error = "Image Successfully Added";
                 } 
                 else {
                     $cls="danger";
@@ -278,7 +279,7 @@ $ngo_read = $row22['ngo_read'];
                     </li>
                     <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                 </ul>
-            </div> 
+            </div>
         </div>
 
         <div class="main">
@@ -332,6 +333,13 @@ $ngo_read = $row22['ngo_read'];
                                 style="font-size:16px; font-weight:600;margin-top:30px">
                                 <p style="font-size:16px">Post By: <?php echo $pname?></p>
                             </div>
+                            <div class="alert alert-<?php echo $cls;?>">
+                    <?php 
+                                            if (isset($_POST['submit'])||isset($_POST['submit_img'])){
+                                                echo $error;
+                                            }
+                                        ?>
+                </div>
                             <form action="" method="POST">
                                 <div class="d-flex justify-content-between row">
                                     <div class="col-md-12">
@@ -352,7 +360,7 @@ $ngo_read = $row22['ngo_read'];
                                     <div class="col-md-12">
                                         <h4 style="padding-top:15px">
                                             <label for="" style="margin-bottom:15px">Cause Description</label>
-                                            <textarea name="" id="" rows="8" name="description"
+                                            <textarea id="" rows="8" name="description"
                                                 class="form-control"><?php echo $description?></textarea>
 
                                     </div>
@@ -367,11 +375,11 @@ $ngo_read = $row22['ngo_read'];
                             </form>
                             <hr>
                             <div>
-                                <div class="row" style="padding-top:10px">
-                                    <div class="col-md-6">
+                                <div class=" d-flex justify-content-between" style="padding-top:10px">
+                                    <div>
                                         <h5 style="">Cause Images</h5>
                                     </div>
-                                    <div class="col-md-6 ">
+                                    <div style="margin-right:60px">
                                         <form action="" method="POST" enctype='multipart/form-data'>
                                             <input type="file" name="file" id="file" style="margin-top:10px;">
                                             <button class="btn btn-success" name="submit_img">Add Image</button>
@@ -408,7 +416,7 @@ $ngo_read = $row22['ngo_read'];
                                         <h5 style="padding-top:10px">Blog Posts</h5>
                                     </div>
                                     <div class="col-md-2 ">
-                                        <a href="ngo_post_add.php" class="btn btn-success">Add Post</a>
+                                        <a href="ngo_blog_add.php" class="btn btn-success">Add Post</a>
                                     </div>
                                 </div>
                                 <hr>

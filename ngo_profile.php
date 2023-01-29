@@ -1,6 +1,6 @@
 <?php
 include_once("./database/config.php");
-
+error_reporting(0);
 session_start();
 $username = $_SESSION['ngoname'];
 
@@ -149,7 +149,7 @@ if (isset($_POST['submit'])) {
         } 
         else {
             $cls="danger";
-            $error = "Cannot Update Profile";
+            $error = mysqli_error($conn);
         }
 
 }

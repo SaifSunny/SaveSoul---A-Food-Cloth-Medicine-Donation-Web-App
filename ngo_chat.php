@@ -3,6 +3,7 @@ include_once("./database/config.php");
 
 session_start();
 $username = $_SESSION['ngoname'];
+error_reporting(0);
 
 if (!isset($_SESSION['ngoname'])) {
     header("Location: ngo_login.php");

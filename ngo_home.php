@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -222,7 +223,7 @@ $ngo_read = $row22['ngo_read'];
                 
             <h3 style="font-size:24px;margin-bottom:40px">My Causes
                         </h3>
-                        <div class="col-lg-12" style="height:800px; overflow-y:scroll;">
+                        <div class="col-lg-12" style="">
 
                             <?php 
 

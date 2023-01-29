@@ -76,14 +76,14 @@ $ngo_read = $row22['ngo_read'];
                     </a>
                 </li>
                 <li>
-                    <a href="ngo_pickup.php" class="nav-link text-white" style="font-size:17px;">
+                    <a href="ngo_pickup.php" class="nav-link active" aria-current="page"
+                        style="background:#fc6806;font-size:17px;">
                         <i class="fa-solid fa-list" style="padding-right:14px;"></i>
                         Pick-up Requests
                     </a>
                 </li>
                 <li>
-                    <a href="ngo_donation.php" class="nav-link active" aria-current="page"
-                        style="background:#fc6806;font-size:17px;">
+                    <a href="ngo_donation.php" class="nav-link text-white" style="font-size:17px;">
                         <i class="fa-solid fa-coins" style="padding-right:14px;"></i>
                         Donation History
                     </a>
@@ -140,40 +140,57 @@ $ngo_read = $row22['ngo_read'];
                 </div>
             </div>
             <table class="table" style="font-size: 14px;color:#222;vertical-align:middle">
-                                <thead>
-                                    <th>Image</th>
-                                    <th>NGO Name</th>
-                                    <th>Donation Item</th>
-                                    <th>Amount</th>
-                                    <th>Donate Date</th>
-                                    <th>Pickup Date</th>
-                                    <th>Contact</th>
-                                    <th>Action</th>
-                                </thead>
+                <thead>
+                    <th>Image</th>
+                    <th>NGO Name</th>
+                    <th>Donation Item</th>
+                    <th>Amount</th>
+                    <th>Donate Date</th>
+                    <th>Pickup Date</th>
+                    <th>Contact</th>
+                    <th>Action</th>
+                </thead>
 
-                                <tbody>
-                                    <?php 
-                                            $sql = "SELECT * FROM donation Where poster_id = $ngo_id and `role`='NGO' and category <> 'Money' AND `status` = 0";
+                <tbody>
+                    <?php 
+                                            $sql = "SELECT * FROM causes where poster_id = $ngo_id and `role`='NGO'";
                                             $result = mysqli_query($conn, $sql);
                                             if($result){
                                                 while($row=mysqli_fetch_assoc($result)){
-                                                    $donation_id=$row['donation_id'];
                                                     $cause_id=$row['cause_id'];
-                                                    $category=$row['category'];
-                                                    $amount=$row['amount'];
-                                                    $address=$row['address'];
-                                                    $date=$row['date'];
-                                                    $pickup_date=$row['pickup_date'];
-                                                    $status=$row['status'];
 
-                                                    $newDate = date("d F Y h:i A", strtotime($pickup_date));
+                                                    $sql1 = "SELECT * FROM donation Where cause_id = $cause_id";
+                                                    $result1 = mysqli_query($conn, $sql1);
+                                                    if($result1){
+                                                    while($row1=mysqli_fetch_assoc($result1)){
+                              
+                                                    $donation_id=$row1['donation_id'];
+                    
+                                                    $poster_id=$row1['poster_id'];
+                                                    $role=$row1['role'];
+                                                    $cause_id=$row1['cause_id'];
+                                                    $category=$row1['category'];
+                                                    $amount=$row1['amount'];
+                                                    $address=$row1['address'];
+                                                    $date=$row1['date'];
+                                                    $pickup_date=$row1['pickup_date'];
+                                                    $status=$row1['status'];
+
+                                              
+      
+                                                        $sql3 = "SELECT * from donners where donner_id = $poster_id";
+                                                        $result3 = mysqli_query($conn, $sql3);
+                                                        $row3 =mysqli_fetch_assoc($result3);
+                                                        $pname=$row3['firstname']." ".$row3['lastname'];
+                                                        $pimg=$row3['donner_img'];
+
 
                                                     if($status == 1){
                                                         $type = "success";
                                                         $msg = "Picked Up";
                                                     }else{
                                                         $type = "danger";
-                                                        $msg = "Pending";
+                                                        $msg = "Cancelled";
                                                     }
 
                                                     $item = "";
@@ -191,65 +208,53 @@ $ngo_read = $row22['ngo_read'];
                                                         $item = "Tk.";
                                                     }
 
-                                                    $sql1 = "SELECT * FROM causes Where cause_id = $cause_id";
-                                                    $result1 = mysqli_query($conn, $sql1);
-                                                    $row1=mysqli_fetch_assoc($result1);
-                                                    $cposter_id=$row1['poster_id'];
-                                                    $crole=$row1['role'];
-
-                                                    if($crole=="Donner"){
-                                                        $sql3 = "SELECT * from donners where donner_id = $cposter_id";
-                                                        $result3 = mysqli_query($conn, $sql3);
-                                                        $row3 =mysqli_fetch_assoc($result3);
-                                                        $pname=$row3['firstname']." ".$row3['lastname'];
-                                                        $pimg=$row3['donner_img'];
-
-                                                        $dir="donners";
-                                                
-                                                    }else{
-                                                        $sql4 = "SELECT * from ngo where ngo_id = $cposter_id";
-                                                        $result4 = mysqli_query($conn, $sql4);
-                                                        $row4 =mysqli_fetch_assoc($result4);
-                                                        $pname=$row4['ngo_name'];
-                                                        $pimg=$row4['ngo_img'];
-
-                                                        $dir="ngos";
-
-                                                    }
-
 
 
                                         ?>
-                                    <tr>
-                                        <td><img src="./img/<?php echo $dir."/".$pimg?>" style="width:90px;"
-                                                alt="profile">
-                                            <span style="padding-left:20px;"></span></td>
-                                        <td><?php echo $pname ?></td>
-                                        <td><?php echo $category ?></td>
-                                        <td><?php echo $amount." ".$item?></td>
-                                        <td><?php echo $date ?></td>
-                                        <td><?php echo $newDate ?></td>
-                                        <td>
-                                            <a href="ngo_create_chat.php?ngo_id=<?php echo $ngo_id?>&donner_id=<?php echo $donner_id?>"
-                                                class="btn btn-success"
-                                                style="font-size:12px;padding:10% 20%;margin-right:10%">Message</a>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href="ngo_donation_cancel.php?donation_id=<?php echo $donation_id?>"
-                                                    class="btn btn-danger" style="font-size:12px;padding:10% 20%"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
+                    <tr>
+                        <td><img src="./img/donners/<?php echo $pimg?>" style="width:90px;" alt="profile">
+                            <span style="padding-left:20px;"></span></td>
+                        <td><?php echo $pname ?></td>
+                        <td><?php echo $category ?></td>
+                        <td><?php echo $amount." ".$item?></td>
+                        <td><?php echo $date ?></td>
+                        <td><?php echo $pickup_date ?></td>
+                        <td>
+                            <a href="ngo_create_chat.php?ngo_id=<?php echo $ngo_id?>&donner_id=<?php echo $poster_id?>"
+                                class="btn btn-success"
+                                style="font-size:12px;padding:10% 20%;margin-right:10%">Message</a>
+                        </td>
+                        <td>
+                            <?php
+                                            if($status==0){
+                                            ?>
+                            <div class="d-flex">
+                                <a href="ngo_donation_recieved.php?donation_id=<?php echo $donation_id?>"
+                                    class="btn btn-success" style="font-size:12px;padding:10% 20%;margin-right:5px"><i
+                                        class="fa fa-check"></i></a>
+                                <a href="ngo_donation_cancel.php?donation_id=<?php echo $donation_id?>"
+                                    class="btn btn-danger" style="font-size:12px;padding:10% 20%"><i
+                                        class="fa fa-trash"></i></a>
+                            </div>
+                            <?php
+                                            }else{
+                                            ?>
+                            <button style="border-radius: 40px; padding:5px 14px; font-size:10px; font-weight:600"
+                                class="btn btn-<?php echo $type?>"><?php echo $msg?></button>
+                            <?php
+                                            }
+                                ?>
+                        </td>
 
-                                        </td>
-
-                                    </tr>
-                                    <?php 
+                    </tr>
+                    <?php 
+                                                                            }
+                                                                        }
                                                 }
                                             }
                                         ?>
-                                </tbody>
-                            </table>
+                </tbody>
+            </table>
 
     </section>
 

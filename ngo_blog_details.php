@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -73,7 +74,7 @@ $row=mysqli_fetch_assoc($result);
         $cls="";
     
         $query2 = "INSERT INTO comments(commenter_id, blog_id, `message`, reply_date, `role`)
-        VALUES ('$donner_id', '$blog_id', '$comment', '$date','Donner')";
+        VALUES ('$ngo_id', '$blog_id', '$comment', '$date','NGO')";
         $query_run2 = mysqli_query($conn, $query2);
                 
         if ($query_run2) {
@@ -282,19 +283,7 @@ $row=mysqli_fetch_assoc($result);
                                                 $date = $row["reply_date"];
                                                 $comment = $row["message"];
 
-                                                if($role=="Donner"){
-
-                                                    $sql10 = "SELECT * FROM donners WHERE donner_id='$commenter_id'";
-                                                    $result10 = mysqli_query($conn, $sql10);
-                                                    $row10=mysqli_fetch_assoc($result10);
-
-                                                    $cimg=$row10['donner_img'];
-                                                    $cname=$row10['firstname']." ".$row10['lastname'];
-                                                    $ctype="donners";
-                                                }
-                                                
                                                 if($role=="NGO"){
-
                                                     $sql11 = "SELECT * FROM ngo WHERE ngo_id='$commenter_id'";
                                                     $result11 = mysqli_query($conn, $sql11);
                                                     $row11=mysqli_fetch_assoc($result11);
@@ -302,6 +291,16 @@ $row=mysqli_fetch_assoc($result);
                                                     $cimg=$row11['ngo_img'];
                                                     $cname=$row11['ngo_name'];
                                                     $ctype="ngos";
+                                                    
+                                                }else{
+                                                    $sql10 = "SELECT * FROM donners WHERE donner_id='$commenter_id'";
+                                                    $result10 = mysqli_query($conn, $sql10);
+                                                    $row10=mysqli_fetch_assoc($result10);
+
+                                                    $cimg=$row10['donner_img'];
+                                                    $cname=$row10['firstname']." ".$row10['lastname'];
+                                                    $ctype="donners";
+
                                                 }
 
 

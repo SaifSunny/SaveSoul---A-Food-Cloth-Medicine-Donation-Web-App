@@ -1,5 +1,6 @@
 <?php
 include_once("./database/config.php");
+error_reporting(0);
 
 session_start();
 $username = $_SESSION['ngoname'];
@@ -30,6 +31,77 @@ $result22 = mysqli_query($conn, $sql22);
 $row22=mysqli_fetch_assoc($result22);
 
 $ngo_read = $row22['ngo_read'];
+
+if(isset($_POST['submit'])){
+
+
+    $cause_title = $_POST['cause_title'];
+    $category = $_POST['category'];
+    $goal = $_POST['goal'];
+    $description = $_POST['description'];
+    $location = $_POST['location'];
+    $date=  date('d F Y h:i A');
+
+    $error = "";
+    $cls="";
+ 
+    $name = $_FILES['file']['name'];
+    $target_dir = "img/causes/";
+    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+  
+    // Select file type
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  
+    // Valid file extensions
+    $extensions_arr = array("jpg","jpeg","png","gif");
+
+    
+            $query = "SELECT * FROM causes WHERE poster_id = '$ngo_id' AND cause_title = '$cause_title'";
+            $query_run = mysqli_query($conn, $query);
+            if(!$query_run->num_rows > 0){
+
+                // Check extension
+                if( in_array($imageFileType,$extensions_arr) ){
+
+                    // Upload file
+                    if(move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name)){
+
+                        // Convert to base64 
+                        $image_base64 = base64_encode(file_get_contents('img/causes/'.$name));
+                        $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
+
+                        // Insert record
+
+                        $query2 = "INSERT INTO causes(cause_title,cause_img,category,goal,`description`,`location`, post_date, poster_id, `role`)
+                        VALUES ('$cause_title','$name','$category','$goal', '$description', '$location', '$date', '$ngo_id', 'NGO')";
+                        $query_run2 = mysqli_query($conn, $query2);
+            
+                        if ($query_run2) {
+                            $cls="success";
+                            $error = "Cause Successfully Added.";
+                        } 
+                        else {
+                            $cls="danger";
+                            $error = mysqli_error($conn);
+                        }
+
+                    }else{
+                        $cls="danger";
+                        $error = 'Unknown Error Occurred.';
+                    }
+                }else{
+                    $cls="danger";
+                    $error = 'Invalid File Type';
+                }
+            }
+            else{
+                $cls="danger";
+                $error = "Cause Already Exists";
+            }
+
+    
+   
+}
 ?>
 
 <!doctype html>

@@ -1,6 +1,7 @@
 <?php
 include_once("./database/config.php");
 date_default_timezone_set('Asia/Dhaka');
+error_reporting(0);
 
 
 session_start();
@@ -415,7 +416,7 @@ $donner_read = $row22['donner_read'];
                                         <h5 style="padding-top:10px">Blog Posts</h5>
                                     </div>
                                     <div class="col-md-2 ">
-                                        <a href="donner_post_add.php" class="btn btn-success">Add Post</a>
+                                        <a href="donner_blog_add.php" class="btn btn-success">Add Post</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -463,7 +464,7 @@ $donner_read = $row22['donner_read'];
                                                 <div class="card">
                                                     <a href="donner_blog_details.php?blog_id=<?php echo $id?>"><img
                                                             src="img/posts/<?php echo $image?>" class="card-img-top"
-                                                            alt="..." style=""></a>
+                                                            alt="..." style="height:200px; object-fit:cover"></a>
                                                     <div class="card-body" style="padding:30px">
                                                         <p style="font-size:15px"><i
                                                                 class="fa fa-user text-success"></i> <?php echo $name?>
