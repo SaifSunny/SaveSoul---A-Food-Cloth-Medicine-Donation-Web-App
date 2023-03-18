@@ -1,7 +1,7 @@
 <?php
 include './database/config.php';
 
-$did = $_GET['id'];
+$did = $_GET['post_id'];
 
   $query = "DELETE FROM causes WHERE cause_id='$did'";
   $query_run = mysqli_query($conn, $query);

@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
     $extensions_arr = array("jpg","jpeg","png","gif");
 
     
-            $query = "SELECT * FROM causes WHERE ngo_id = '$ngo_id' AND cause_title = '$cause_title'";
+            $query = "SELECT * FROM causes WHERE poster_id = '$ngo_id' and role='NGO' AND cause_title = '$cause_title'";
             $query_run = mysqli_query($conn, $query);
             if(!$query_run->num_rows > 0){
 
@@ -62,8 +62,8 @@ if(isset($_POST['submit'])){
 
                         // Insert record
 
-                        $query2 = "INSERT INTO causes(cause_title,cause_img,ngo_id,category,goal,`description`,`location`, post_date)
-                        VALUES ('$cause_title','$name','$ngo_id','$category','$goal', '$description', '$location', '$date')";
+                        $query2 = "INSERT INTO causes(cause_title,cause_img,poster_id,category,goal,`description`,`location`, post_date, `role`)
+                        VALUES ('$cause_title','$name','$ngo_id','$category','$goal', '$description', '$location', '$date','NGO')";
                         $query_run2 = mysqli_query($conn, $query2);
             
                         if ($query_run2) {
