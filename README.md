@@ -31,9 +31,9 @@ SaveSoul integrates a comprehensive messaging system, enabling effective communi
 
 
 # GitHub Repository
-Explore the source code and contribute to the SaveSoul project on GitHub: SaveSoul GitHub
+Explore the source code and contribute to the SaveSoul project on GitHub: [SaveSoul GitHub](https://github.com/SaifSunny/SaveSoul-A-Food-Cloth-Medicine-Donation-Web-App)
 
 # Demo
-Check out the live demo of SaveSoul here: SaveSoul Demo
+Check out the live demo of SaveSoul here: [SaveSoul Demo](https://healthhubbd.000webhostapp.com/savesoul/)
 
 SaveSoul aims to bring together donors and NGOs in a collaborative effort to make a meaningful impact on the lives of those in need. Join us in this noble cause by contributing to the SaveSoul community. Together, we can make the world a better place for everyone.
